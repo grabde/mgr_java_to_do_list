@@ -1,0 +1,49 @@
+<!DOCTYPE HTML>
+<html xmlns:layout="http://www.w3.org/1999/xhtml"
+      layout:decorate="~{layouts/main_layout.html}"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      lang="pl">
+<div layout:fragment="content">
+  <h1 class="text-center mt-3">Lista zadań</h1>
+  <hr/>
+  <div class="row mt-1">
+    <div class="col-12 text-right">
+      <a class="btn btn-primary" href="/task/new">+ Nowe zadanie</a>
+    </div>
+  </div>
+  <div class="row mt-4">
+    <div class="col-12">
+      <table class="table">
+        <thead>
+        <tr>
+          <th>Id</th>
+          <th>Zadanie</th>
+          <th>Termin</th>
+          <th>Zrealizowane</th>
+          <th></th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="task : ${listTasks}">
+          <td th:text="${task.id}">Id</td>
+          <td th:text="${task.zadanie}">Zadanie</td>
+          <td th:text="${task.termin}">Termin</td>
+          <td th:text="${task.done}">Zrealizowane</td>
+          <td>
+            <a class="btn btn-sm btn-success"
+               th:href="@{'/task/done/' + ${task.id}}">Zrealizuj</a>
+            <a class="btn btn-sm btn-warning"
+               th:href="@{'/task/todo/' + ${task.id}}">Do realizacji</a>
+            <a class="btn btn-sm btn-secondary"
+               th:href="@{'/task/edit/' + ${task.id}}">Edytuj</a>
+            <a class="btn btn-sm btn-danger"
+               th:href="@{'/task/delete/' + ${task.id}}">Usuń</a>
+          </td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+</html>
