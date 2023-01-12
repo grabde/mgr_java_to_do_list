@@ -1,5 +1,6 @@
 package pl.wsb.students.intruductionapp.service;
 
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import pl.wsb.students.intruductionapp.model.Task;
 import pl.wsb.students.intruductionapp.repository.TaskRepository;
@@ -18,9 +19,9 @@ public class TaskService {
         this.taskRepository = taskRepository;
     }
 
-    public Iterable<Task> listAll()
+    public Iterable<Task> listAll(String sortDirection)
     {
-        return taskRepository.findAll();
+        return taskRepository.findAll(getSortByDirection(sortDirection));
     }
 
     public void save (Task task)
@@ -41,21 +42,26 @@ public class TaskService {
     {
         taskRepository.deleteById(id);
     }
-    public Iterable<Task> listToday()
+    public Iterable<Task> listToday(String sortDirection)
     {
         LocalDate v_ldate = java.time.LocalDate.now();
         String v_sldate = v_ldate.toString();
-        Iterable<Task> tasks = taskRepository.find_today(v_sldate);
+        Iterable<Task> tasks = taskRepository.find_today(v_sldate, getSortByDirection(sortDirection));
         return tasks;
     }
-    public Iterable<Task> listDone()
+    public Iterable<Task> listDone(String sortDirection)
     {
-        Iterable<Task> tasks = taskRepository.find_done("Tak");
-        return tasks;
+        return taskRepository.findDone(getSortByDirection(sortDirection));
     }
-    public Iterable<Task> listTodo()
+
+    public Iterable<Task> listTodo(String sortDirection)
     {
-        Iterable<Task> tasks = taskRepository.find_todo("Nie");
+        return taskRepository.findToDo(getSortByDirection(sortDirection));
+    }
+
+    public Iterable<Task> sortAsc()
+    {
+        Iterable<Task> tasks = taskRepository.sortAsc();
         return tasks;
     }
     public void done(Integer id)
@@ -66,7 +72,6 @@ public class TaskService {
             task.setDone("Tak");
         }
     }
-
     public void todo(Integer id)
     {
         Task task = taskRepository.findById(id).orElse(null);
@@ -74,5 +79,12 @@ public class TaskService {
         {
             task.setDone("Nie");
         }
+    }
+
+    private static Sort getSortByDirection(String sortDirection) {
+        Sort.Direction direction = "DESC".equals(sortDirection)
+                ? Sort.Direction.DESC
+                : Sort.Direction.ASC;
+        return Sort.by(direction, "termin");
     }
 }

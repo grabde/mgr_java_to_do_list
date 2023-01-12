@@ -41,7 +41,7 @@ class TaskControllerTest {
                 "Zadanie 2",
                 "2023-01-01"
         );
-        doReturn(Lists.newArrayList(task1, task2)).when(service).listAll();
+        doReturn(Lists.newArrayList(task1, task2)).when(service).listAll("ASC");
 // Execute the GET request
         mockMvc.perform(get("/task/"))
 // Validate the response code and content type

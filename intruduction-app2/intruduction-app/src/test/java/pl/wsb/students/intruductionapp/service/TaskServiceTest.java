@@ -39,7 +39,7 @@ public class TaskServiceTest {
                 "2023-01-01"
         );
         doReturn(Arrays.asList(task1, task2)).when(repository).findAll();
-        Iterable<Task> movies = taskService.listAll();
+        Iterable<Task> movies = taskService.listAll("ASC");
         Assertions.assertEquals(2, StreamSupport.stream(movies.spliterator(), false).count());
     }
     @Test

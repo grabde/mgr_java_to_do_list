@@ -10,6 +10,8 @@
   <div class="row mt-1">
     <div class="col-12 text-right">
       <a class="btn btn-primary" href="/task/new">+ Nowe zadanie</a>
+      <a class="btn btn-primary" th:href="@{${url}(sortDirection=ASC)}"> Data rosnąco</a>
+      <a class="btn btn-primary" th:href="@{${url}(sortDirection=DESC)}">Data malejąco</a>
     </div>
   </div>
   <div class="row mt-4">

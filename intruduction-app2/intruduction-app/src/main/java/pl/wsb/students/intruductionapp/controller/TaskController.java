@@ -14,9 +14,11 @@ public class TaskController {
     @Autowired
     private TaskService taskService;
     @GetMapping("/")
-    public String index(Model model)
+    public String index(Model model,
+                        @RequestParam(value = "sortDirection", defaultValue = "ASC") String sortDirection)
     {
-        model.addAttribute("listTasks", taskService.listAll());
+        System.out.println(sortDirection);
+        model.addAttribute("listTasks", taskService.listAll(sortDirection));
         return "task/index";
     }
     @GetMapping("/new")
@@ -58,21 +60,29 @@ public class TaskController {
         return "redirect:/task/";
     }
     @GetMapping("/today")
-    public String today(Model model)
+    public String today(Model model, @RequestParam(value = "sortDirection", defaultValue = "ASC") String sortDirection)
     {
-        model.addAttribute("listTasks", taskService.listToday());
+        model.addAttribute("listTasks", taskService.listToday(sortDirection));
         return "task/index";
     }
     @GetMapping("/done")
-    public String done(Model model)
+    public String done(Model model,
+                       @RequestParam(value = "sortDirection", defaultValue = "ASC") String sortDirection)
     {
-        model.addAttribute("listTasks", taskService.listDone());
+        model.addAttribute("listTasks", taskService.listDone(sortDirection));
         return "task/index";
     }
     @GetMapping("/todo")
-    public String todo(Model model)
+    public String todo(Model model,
+                       @RequestParam(value = "sortDirection", defaultValue = "ASC") String sortDirection)
     {
-        model.addAttribute("listTasks", taskService.listTodo());
+        model.addAttribute("listTasks", taskService.listTodo(sortDirection));
+        return "task/index";
+    }
+    @GetMapping("/sortasc")
+    public String sortAsc(Model model)
+    {
+        model.addAttribute("listTasks", taskService.sortAsc());
         return "task/index";
     }
 }
